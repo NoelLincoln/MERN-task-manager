@@ -8,7 +8,6 @@ import './App.css';
 import { Player } from '@lottiefiles/react-lottie-player';
 import Navbar from './components/Navbar';
 
-
 interface Task {
   _id: string;
   task_name: string;
@@ -92,76 +91,79 @@ function App() {
   };
 
   return (
-    <div className="container mx-auto p-4 w-full md:w-3/5">
-      <Navbar/>
-      <Player src="https://lottie.host/0d33cc09-0116-4566-b499-b44d2d3abf12/n903zNeOR6.json" loop autoplay/>
-      <h1 className="text-2xl font-bold mb-4">My Planner</h1>
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Task Name"
-          value={taskName}
-          onChange={(e) => setTaskName(e.target.value)}
-          className="border p-2 rounded w-full mb-2"
-        />
-        <input
-          type="text"
-          placeholder="Task Description"
-          value={taskDescription}
-          onChange={(e) => setTaskDescription(e.target.value)}
-          className="border p-2 rounded w-full mb-2"
-        />
-        <div className="flex justify-center">
-          <button
-            onClick={addTask}
-            className="bg-blue-500 text-white p-2 rounded"
-          >
-            Add Task
-          </button>
+    <>
+      <Navbar />
+      <div className="container mx-auto mb-4 p-4 w-full md:w-3/5 flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-4">
+        <div className="flex-1">
+          <Player src="https://lottie.host/0d33cc09-0116-4566-b499-b44d2d3abf12/n903zNeOR6.json" loop autoplay />
         </div>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        <div className="flex-1 w-full">
+          <h1 className="text-2xl font-bold mb-4">My Planner</h1>
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Task Name"
+              value={taskName}
+              onChange={(e) => setTaskName(e.target.value)}
+              className="border p-2 rounded w-full mb-2" />
+            <input
+              type="text"
+              placeholder="Task Description"
+              value={taskDescription}
+              onChange={(e) => setTaskDescription(e.target.value)}
+              className="border p-2 rounded w-full mb-2" />
+            <div className="flex justify-center">
+              <button
+                onClick={addTask}
+                className="bg-blue-500 text-white p-2 rounded"
+              >
+                Add Task
+              </button>
+            </div>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
+          </div>
+          <ul className="space-y-4">
+            {tasks.map((task) => (
+              <li
+                key={task._id}
+                className="bg-gray-100 p-4 mb-2 rounded shadow grid grid-cols-1 md:grid-cols-2 gap-4 items-start cursor-pointer transform transition-all duration-200 hover:shadow-lg hover:scale-105"
+              >
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold">{task.task_name}</h3>
+                  <p>{task.task_description}</p>
+                  <p>Status: {task.completed_status ? 'Completed' : 'Incomplete'}</p>
+                </div>
+                <div className="flex items-center justify-end space-x-2">
+                  <button
+                    onClick={() => editTask(task)}
+                    className="text-yellow-500 hover:text-yellow-700"
+                    aria-label="Edit"
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button
+                    onClick={() => deleteTask(task._id)}
+                    className="text-red-500 hover:text-red-700"
+                    aria-label="Delete"
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+          {isModalOpen && currentTask && (
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              taskName={currentTask.task_name}
+              taskDescription={currentTask.task_description}
+              onSave={saveTask} />
+          )}
+          <Toaster />
+        </div>
       </div>
-      <ul className="space-y-4">
-        {tasks.map((task) => (
-          <li
-            key={task._id}
-            className="bg-gray-100 p-4 mb-2 rounded shadow grid grid-cols-1 md:grid-cols-2 gap-4 items-start cursor-pointer transform transition-all duration-200 hover:shadow-lg hover:scale-105"
-          >
-            <div className="flex-1">
-              <h3 className="text-xl font-semibold">{task.task_name}</h3>
-              <p>{task.task_description}</p>
-              <p>Status: {task.completed_status ? 'Completed' : 'Incomplete'}</p>
-            </div>
-            <div className="flex items-center justify-end space-x-2">
-              <button
-                onClick={() => editTask(task)}
-                className="text-yellow-500 hover:text-yellow-700"
-                aria-label="Edit"
-              >
-                <FontAwesomeIcon icon={faEdit} />
-              </button>
-              <button
-                onClick={() => deleteTask(task._id)}
-                className="text-red-500 hover:text-red-700"
-                aria-label="Delete"
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      {isModalOpen && currentTask && (
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          taskName={currentTask.task_name}
-          taskDescription={currentTask.task_description}
-          onSave={saveTask}
-        />
-      )}
-      <Toaster />
-    </div>
+    </>
   );
 }
 
