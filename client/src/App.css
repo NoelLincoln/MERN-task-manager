@@ -1,4 +1,7 @@
-/* App.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #root{
   width: 100%;
   height: auto;
@@ -13,7 +16,6 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  color: #333;
   margin: 0;
   padding: 0;
 }
@@ -62,16 +64,6 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  border-color: #646cff;
-  background-color: #646cff;
-
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 .error-message {
   color: red;
   text-align: center;
@@ -84,6 +76,8 @@ ul {
 }
 
 li {
+  display: flex;
+  justify-content: space-between;
   padding: 15px;
   margin-bottom: 10px;
   background: #fafafa;
