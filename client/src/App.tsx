@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import './App.css';
 import Modal from './components/Modal';
+import toast, { Toaster } from 'react-hot-toast';
+import './App.css';
+import { Player } from '@lottiefiles/react-lottie-player';
+import Navbar from './components/Navbar';
+
 
 interface Task {
   _id: string;
@@ -26,12 +30,9 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      console.log('Fetching tasks...');
       const response = await axios.get('api/v1/tasks');
-      console.log('Tasks fetched:', response.data.tasks);
       setTasks(response.data.tasks);
     } catch (error) {
-      console.error('Error fetching tasks', error);
       setError('Failed to fetch tasks');
     }
   };
@@ -49,15 +50,13 @@ function App() {
         completed_status: false,
       };
 
-      console.log('Adding task:', newTask);
       const response = await axios.post('api/v1/tasks', newTask);
-      console.log('Task added:', response.data.task);
       setTasks([...tasks, response.data.task]);
       setTaskName('');
       setTaskDescription('');
       setError(null);
+      toast.success('Task added successfully!');
     } catch (error) {
-      console.error('Error adding task', error);
       setError('Failed to add task');
     }
   };
@@ -69,33 +68,34 @@ function App() {
 
   const saveTask = async (name: string, description: string) => {
     if (!currentTask) return;
-    
+
     try {
       const updatedTask = { ...currentTask, task_name: name, task_description: description };
       await axios.patch(`api/v1/tasks/${currentTask._id}`, updatedTask);
       setTasks(tasks.map((task) => (task._id === currentTask._id ? updatedTask : task)));
       setIsModalOpen(false);
       setCurrentTask(null);
+      toast.success('Task updated successfully!');
     } catch (error) {
-      console.error('Error updating task', error);
       setError('Failed to update task');
     }
   };
 
   const deleteTask = async (id: string) => {
     try {
-      console.log('Deleting task with ID:', id);
       await axios.delete(`api/v1/tasks/${id}`);
       setTasks(tasks.filter((task) => task._id !== id));
+      toast.success('Task deleted successfully!');
     } catch (error) {
-      console.error('Error deleting task', error);
       setError('Failed to delete task');
     }
   };
 
   return (
     <div className="container mx-auto p-4 w-full md:w-3/5">
-      <h1 className="text-2xl font-bold mb-4">Task Manager</h1>
+      <Navbar/>
+      <Player src="https://lottie.host/0d33cc09-0116-4566-b499-b44d2d3abf12/n903zNeOR6.json" loop autoplay/>
+      <h1 className="text-2xl font-bold mb-4">My Planner</h1>
       <div className="mb-4">
         <input
           type="text"
@@ -125,7 +125,7 @@ function App() {
         {tasks.map((task) => (
           <li
             key={task._id}
-            className="bg-gray-100 p-4 mb-2 rounded shadow grid grid-cols-1 md:grid-cols-2 gap-4 items-start"
+            className="bg-gray-100 p-4 mb-2 rounded shadow grid grid-cols-1 md:grid-cols-2 gap-4 items-start cursor-pointer transform transition-all duration-200 hover:shadow-lg hover:scale-105"
           >
             <div className="flex-1">
               <h3 className="text-xl font-semibold">{task.task_name}</h3>
@@ -160,6 +160,7 @@ function App() {
           onSave={saveTask}
         />
       )}
+      <Toaster />
     </div>
   );
 }
