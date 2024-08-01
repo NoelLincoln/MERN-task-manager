@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-#root{
+#root {
   width: 100%;
   height: auto;
 }
@@ -51,11 +51,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  padding: 10px 20px;
   margin: 5px;
-  border: none;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
