@@ -13,7 +13,7 @@
     "test:watch": "vitest",
     "test:ci": "vitest run --coverage",
     "serve": "vite preview",
-    "prepare": "husky install && rm -rf .git/hooks && ln -s ../.husky .git/hooks",
+    "prepare": "husky install && rm -rf .git/hooks && ln -s ../.husky .git/hooks"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
