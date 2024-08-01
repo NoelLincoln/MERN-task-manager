@@ -1,26 +1,66 @@
 name: Linters
 
-on: pull_request
+on:
+  push:
+    # Run on all branches
+    branches:
+      - "*"
+    # Run only if files modified are not docs
+    paths-ignore:
+      - "*.md"
+  pull_request:
+    # Run on all branches
+    branches:
+      - "*"
+    # Run only if files modified are not docs
+    paths-ignore:
+      - "*.md"
 
 env:
   FORCE_COLOR: 1
 
 jobs:
-  eslint:
-    name: ESLint
-    runs-on: ubuntu-22.04
+  buildAndTest:
+    name: Build & Test
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+
+      - name: 🏗 Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: "18.x"
-      - name: Setup ESLint
-        run: |
-          npm install --save-dev eslint@7.x eslint-config-airbnb@18.x eslint-plugin-import@2.x eslint-plugin-jsx-a11y@6.x eslint-plugin-react@7.x eslint-plugin-react-hooks@4.x @babel/eslint-parser@7.x @babel/core@7.x  @babel/plugin-syntax-jsx@7.x @babel/preset-env@7.x  @babel/preset-react@7.x
-          [ -f .eslintrc.json ] || wget https://raw.githubusercontent.com/microverseinc/linters-config/master/react-redux/.eslintrc.json
-          [ -f .babelrc ] || wget https://raw.githubusercontent.com/microverseinc/linters-config/master/react-redux/.babelrc
-      - name: ESLint Report
-        run: npx eslint "**/*.{js,jsx,ts,tsx}"
+          version: 8
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: 🗂️ Install dependencies
+        run: pnpm i
+
+      - name: 📄 TypeScript Check
+        run: pnpm tsc --noEmit
+
+      - name: 🔨 Build
+        run: pnpm build:ci
+
+      - name: 🧪 Test
+        run: pnpm test:ci
+
+      # Upload dist artifacts
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+      # Upload coverage artifacts
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage/lcov.info
+
   stylelint:
     name: Stylelint
     runs-on: ubuntu-22.04
@@ -36,7 +76,7 @@ jobs:
       - name: Stylelint Report
         run: npx stylelint "**/*.{css,scss}"
   nodechecker:
-    name: node_modules checker
+    name: Node Modules Checker
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
