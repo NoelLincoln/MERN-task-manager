@@ -14,8 +14,8 @@
     "install:all": "npm install && npm run client:install",
     "fix": "npm format && npm lint:fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
-    "fix:eslint": "eslint src --ext .js,.ts,.jsx,.tsx --fix",
+    "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
+    "fix:eslint": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
     "fix:prettier": "prettier --write ."
   },
   "keywords": [],
@@ -45,12 +45,29 @@
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.7",
     "nodemon": "^2.0.22",
+    "prettier": "^3.3.3",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^21.0.0",
     "stylelint-csstree-validator": "^1.9.0",
     "stylelint-scss": "^3.21.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "src/**/*.{css,scss}": [
+      "stylelint --fix"
+    ]
   }
 }
