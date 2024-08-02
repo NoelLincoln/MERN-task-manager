@@ -8,8 +8,8 @@
     "install:all": "npm install && npm run client:install",
     "fix": "npm run format && npm run lint:fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint": "eslint . --ext .ts,.jsx,.tsx",
-    "lint:fix": "eslint . --ext .ts,.jsx,.tsx --fix"
+    "lint": "eslint . --ext .ts,.jsx,.tsx && eslint ./client --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.jsx,.tsx --fix && eslint ./client --ext .ts,.tsx --fix"
   },
   "dependencies": {
     "cors": "^2.8.5",

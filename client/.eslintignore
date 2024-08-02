@@ -1,4 +1,4 @@
 node_modules/
 build/
 dist/
-client/postcss.config.js
+client/*.js
