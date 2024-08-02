@@ -1,5 +1,4 @@
-// src/Modal.tsx
-import React from 'react';
+import React from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,13 +8,13 @@ interface ModalProps {
   onSave: (name: string, description: string) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({
+function Modal({
   isOpen,
   onClose,
   taskName,
   taskDescription,
   onSave,
-}) => {
+}: ModalProps) {
   const [name, setName] = React.useState(taskName);
   const [description, setDescription] = React.useState(taskDescription);
 
@@ -50,12 +49,14 @@ const Modal: React.FC<ModalProps> = ({
         />
         <div className="flex justify-end space-x-2">
           <button
+            type="button"
             onClick={onClose}
             className="bg-gray-500 text-white p-2 rounded"
           >
             Cancel
           </button>
           <button
+            type="button"
             onClick={handleSave}
             className="bg-blue-500 text-white p-2 rounded"
           >
@@ -65,6 +66,6 @@ const Modal: React.FC<ModalProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default Modal;

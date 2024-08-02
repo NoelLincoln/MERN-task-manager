@@ -1,36 +1,40 @@
 {
-  "env": {
-    "browser": true,
-    "es6": true,
-    "jest": true
-  },
-  "parser": "@babel/eslint-parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2018,
-    "sourceType": "module",
-    "requireConfigFile": false,
-    "babelOptions": {
-      "presets": ["@babel/preset-env", "@babel/preset-react"]
-    }
-  },
   "extends": [
     "airbnb",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
+    "airbnb/hooks",
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
-  "plugins": ["react"],
-  "rules": {
-    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
-    "react/react-in-jsx-scope": "off",
-    "import/no-unresolved": "off",
-    "no-shadow": "off"
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./"
   },
-  "ignorePatterns": [
-    "dist/",
-    "build/",
-    "client/postcss.config.js"
-  ]
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never",
+        "js": "never",
+        "jsx": "never"
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
 }
