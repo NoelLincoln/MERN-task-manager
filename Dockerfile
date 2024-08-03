@@ -14,12 +14,12 @@ RUN npm install
 # Copy the source code to the container
 COPY . .
 
+# Build the application
+RUN npm run build
+
 # Ensure the .env file is copied if it's used in build or runtime
 # Ensure that the .env file is at the root of your project
 COPY .env .env
-
-# Build the application
-RUN npm run build
 
 # Expose the port the app runs on
 EXPOSE 3001
