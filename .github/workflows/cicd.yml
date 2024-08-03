@@ -27,4 +27,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f task-manager-backend-container
       - name: Run Docker Container
-        run: docker run -d -p 3001:3001 --name task-manager-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' lincoln1000/task-manager-backend
+        run: docker run -d -p 3001 --name task-manager-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' lincoln1000/task-manager-backend
