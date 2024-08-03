@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import Task from "../models/Task";
+import { Request, Response } from 'express';
+import Task from '../models/Task';
 
 export const getAllTasks = async (
   req: Request,
@@ -11,7 +11,7 @@ export const getAllTasks = async (
   } catch (error: unknown) {
     // Type assertion for error
     const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
+      error instanceof Error ? error.message : 'An unknown error occurred';
     return res.status(500).json({ msg: errorMessage });
   }
 };
@@ -26,7 +26,7 @@ export const createTask = async (
   } catch (error: unknown) {
     // Type assertion for error
     const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
+      error instanceof Error ? error.message : 'An unknown error occurred';
     return res.status(500).json({ msg: errorMessage });
   }
 };
@@ -45,7 +45,7 @@ export const getTask = async (
   } catch (error: unknown) {
     // Type assertion for error
     const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
+      error instanceof Error ? error.message : 'An unknown error occurred';
     return res.status(500).json({ msg: errorMessage });
   }
 };
@@ -60,11 +60,11 @@ export const deleteTask = async (
     if (!task) {
       return res.status(404).json({ msg: `No task with id: ${taskId}` });
     }
-    return res.send("Task deleted");
+    return res.send('Task deleted');
   } catch (error: unknown) {
     // Type assertion for error
     const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
+      error instanceof Error ? error.message : 'An unknown error occurred';
     return res.status(500).json({ msg: errorMessage });
   }
 };
@@ -86,7 +86,7 @@ export const updateTask = async (
   } catch (error: unknown) {
     // Type assertion for error
     const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
+      error instanceof Error ? error.message : 'An unknown error occurred';
     return res.status(500).json({ msg: errorMessage });
   }
 };
