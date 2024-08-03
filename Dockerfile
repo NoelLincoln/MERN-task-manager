@@ -21,4 +21,4 @@ RUN npm run build
 EXPOSE 3001
 
 # Define the command to run your application
-CMD [ "node", "dist/src/app.js" ]
+CMD [ "npm", "run", "start" ]
