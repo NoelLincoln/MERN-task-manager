@@ -2,8 +2,8 @@
   "name": "mern-task-manager",
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon app.ts",
-    "dev": "npm run start",
+    "start": "node app.ts",
+    "dev": "nodemon app.ts",
     "fix": "npm run format && npm run lint:fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "eslint . --ext .ts,.jsx,.tsx --fix"

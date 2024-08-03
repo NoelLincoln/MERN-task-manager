@@ -1,0 +1,30 @@
+name: Deploy Task Manager Backend
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
+      - name: Build Docker Image
+        run: docker build -t lincoln1000/task-manager-backend  .
+      - name: Publish Image to docker hub
+        run: docker push lincoln1000/task-manager-backend:latest
+ 
+ 
+  deploy:
+    needs: build
+    runs-on: self-hosted 
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull lincoln1000/task-manager-backend:latest
+      - name: Delete old container
+        run: docker rm -f task-manager-backend-container
+      - name: Run Docker Container
+        run: docker run -d -p 3001:3001 --name task-manager-backend-container -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' lincoln1000/task-manager-backend
