@@ -1,28 +1,24 @@
 # Use an official Node.js image from the Docker Hub
 FROM node:alpine3.18
 
-# Set the working directory in the container to /app
-WORKDIR /app
+# Set the working directory in the container to the root directory
+WORKDIR /
 
-# Copy package.json and package-lock.json first
+# Copy the package.json and package-lock.json to the root directory
 COPY package.json ./
 COPY package-lock.json ./
 
-# Install dependencies
+# Install the dependencies
 RUN npm install
 
-# Copy the source code to the container
+# Copy the rest of your application code to the root directory
 COPY . .
 
-# Ensure the .env file is copied if it's used in build or runtime
-# Ensure that the .env file is at the root of your project
-COPY .env .env
-
-# Build the application
+# Compile TypeScript to JavaScript
 RUN npm run build
 
-# Expose the port the app runs on
+# Make port 3001 available to the world outside this container
 EXPOSE 3001
 
-# Command to run the application
-CMD [ "npm", "run", "start" ]
+# Define the command to run your application
+CMD [ "node", "dist/src/app.js" ]
