@@ -2,9 +2,10 @@ version: '3.8'
 
 services:
   app:
-    image: lincoln1000/task-manager-backend:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
+    environment:
+      MONGO_URI: ${MONGO_URI}
