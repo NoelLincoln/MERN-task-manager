@@ -16,7 +16,7 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker-compose build -t lincoln1000/task-manager-backend  .
+        run: docker-compose build
 
       - name: Publish Image to docker hub
         run: docker push lincoln1000/task-manager-backend:latest
