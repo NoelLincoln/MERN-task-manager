@@ -16,7 +16,7 @@ app.use(express.json());
 
 const corsOptions = {
   origin: ['http://localhost:8000', 'http://18.183.120.7:8000'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
