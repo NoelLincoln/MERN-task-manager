@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import connectDB from './db/connect';
 import tasks from './routes/tasks';
 
@@ -12,6 +13,13 @@ const port = process.env.PORT || 3001;
 
 // Middleware
 app.use(express.json());
+
+// Use the CORS middleware
+app.use(
+  cors({
+    origin: 'http://18.183.120.7:8000/',
+  }),
+);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
