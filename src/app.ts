@@ -14,22 +14,13 @@ const port = process.env.PORT || 3001;
 // Middleware
 app.use(express.json());
 
-// Configure CORS dynamically based on the request origin
-const allowedOrigins = ['http://18.183.120.7:8000', 'http://localhost:8000'];
+const corsOptions = {
+  origin: ['http://localhost:8000', 'http://18.183.120.7:8000/'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }),
-);
+app.use(cors(corsOptions));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
