@@ -14,10 +14,20 @@ const port = process.env.PORT || 3001;
 // Middleware
 app.use(express.json());
 
-// Use the CORS middleware
+// Configure CORS dynamically based on the request origin
+const allowedOrigins = ['http://18.183.120.7:8000', 'http://localhost:8000'];
+
 app.use(
   cors({
-    origin: 'http://18.183.120.7:8000/',
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
 
@@ -28,6 +38,7 @@ app.use('/api/v1/tasks', tasks);
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+// Start the server
 const start = async (): Promise<void> => {
   try {
     if (!process.env.MONGO_URI) {
